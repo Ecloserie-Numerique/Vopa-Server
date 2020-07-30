@@ -1,0 +1,350 @@
+$sombre: #333;
+$clair: #eee;
+
+$tresbien: #65b54f;
+$bien: #bed465;
+$neutre: #fff;
+$mauvais: #ee901f;
+$tresmauvais: #e73727;
+
+@mixin prefix($property, $value, $prefixes) {
+  @each $prefix in $prefixes {
+    -#{$prefix}-#{$property}: $value;
+  }
+  #{$property}: $value;
+}
+
+@mixin centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin marquee {
+  @include centered;
+  background-color: $sombre;
+  color: $clair;
+  width: 100%;
+  height: 10vh;
+}
+
+@mixin modal {
+  @include centered;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: $sombre;
+  display: none;
+}
+
+@mixin form-reset {
+  @include prefix(box-sizing, border-box, moz webkit);
+  display: block;
+  margin: {
+    top: 5px;
+    bottom: 5px;
+  }
+  padding: 10px;
+  border: 0;
+}
+
+@mixin button($color, $hover) {
+  border-radius: 10px;
+  font-size: 1em;
+  font-weight: bold;
+  background-color: $color;
+  &:hover {
+    background-color: $hover;
+    cursor: pointer;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: 800px) {
+    @content;
+  }
+}
+@mixin phone {
+  @media (max-width: 799px) {
+    @content;
+  }
+}
+
+/** Generals **/
+html {
+  body {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    margin: 0;
+    background: url(../images/background.jpg) no-repeat center center fixed;
+    @include prefix(background-size, cover, moz webkit);
+    background-size: cover;
+  }
+}
+input,
+button,
+select {
+  @include form-reset;
+}
+
+/** Header **/
+header {
+  @include marquee;
+  img {
+    width: 9vh;
+  }
+}
+
+.tb {
+  background-color: $tresbien !important;
+}
+.b {
+  background-color: $bien !important;
+}
+.n {
+  background-color: $neutre !important;
+}
+.m {
+  background-color: $mauvais !important;
+}
+.tm {
+  background-color: $tresmauvais !important;
+}
+.tb,
+.b,
+.n,
+.m,
+.tm {
+  width: 50%;
+}
+
+/** Footer **/
+footer {
+  @include marquee;
+  position: absolute;
+  bottom: 0;
+  .connected-users {
+    color: $tresbien;
+    margin-right: 5px;
+  }
+  button {
+    @include button($tresmauvais, $mauvais);
+    margin-left: 100px;
+  }
+  #exit {
+    @include button(#ddd, #eee);
+  }
+}
+
+.container {
+  width: 90%;
+  margin: 0 auto;
+}
+
+/** Login form **/
+.login-admin {
+  @include modal;
+  button {
+    @include button($tresbien, $bien);
+    width: 100%;
+  }
+}
+
+/** Admin dashboard **/
+.dashboard {
+  @include centered;
+  margin: {
+    top: 2vh;
+    bottom: 2vh;
+  }
+  @include phone {
+    flex-direction: column;
+    height: 15vh;
+    input,
+    select,
+    button {
+      width: 100%;
+    }
+  }
+  @include desktop() {
+    flex-direction: row;
+    height: 5vh;
+    input,
+    select,
+    button {
+      width: 30%;
+    }
+  }
+  input,
+  button,
+  select {
+    margin: 5px auto;
+    padding: 10px;
+  }
+  button {
+    @include button($tresbien, $bien);
+  }
+}
+
+.is-admin {
+  display: none;
+}
+
+/** Votes List **/
+#votes-list {
+  margin: {
+    top: 2vh;
+    bottom: 2vh;
+  }
+  overflow: auto;
+  @include phone {
+    height: 60vh;
+  }
+  @include desktop() {
+    height: 70vh;
+  }
+  &::-webkit-scrollbar {
+    width: 2px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #fff;
+  }
+  .vote-card {
+    @include centered;
+    position: relative;
+    width: 98%;
+    background-color: $clair;
+    border-radius: 44px;
+    height: 88px;
+    margin-bottom: 2vh;
+    &:hover {
+      cursor: pointer;
+    }
+    canvas {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+    }
+    .vote-timer {
+      @include centered;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 88px;
+      height: 88px;
+    }
+  }
+}
+
+/** Vote Modal **/
+#vote {
+  @include modal;
+  h1 {
+    @include marquee;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+  }
+  button {
+    @include marquee;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin: 0;
+  }
+  #submit-vote {
+    width: 100%;
+  }
+  input[type='radio'] {
+    display: none;
+    & + label {
+      @include marquee;
+      height: 16vh;
+      color: $sombre;
+      font-size: 2em;
+      font-weight: bold;
+    }
+    &:checked + label {
+      background-color: cornflowerblue !important;
+      color: $clair;
+    }
+  }
+}
+/** Resultat modal **/
+#result {
+  @include modal;
+  h1 {
+    @include marquee;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+  }
+  .result-graph {
+    @include centered;
+    flex-direction: column;
+    height: 60vh;
+    width: 50%;
+    div {
+      @include marquee;
+      color: $sombre;
+    }
+  }
+  .result-bar {
+    @include modal;
+    display: block;
+    background-color: $clair;
+    height: 1px;
+    top: 50%;
+    left: 20%;
+    width: 60%;
+  }
+  .result-footer {
+    @include marquee;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin: 0;
+    button {
+      @include button($bien, $tresbien);
+      width: 50%;
+    }
+  }
+}
+/** Resultats modal **/
+#results {
+  @include modal;
+  color: $clair;
+
+  table {
+    width: 80%;
+  }
+  table,
+  th,
+  td {
+    border: solid 1px $clair;
+    text-align: center;
+  }
+  tr:nth-child(odd) {
+    background-color: #555;
+  }
+  .results-footer {
+    @include marquee;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin: 0;
+    button {
+      @include button($bien, $tresbien);
+      width: 50%;
+    }
+  }
+}

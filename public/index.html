@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VOPA</title>
+
+    <script src="jquery/jquery.min.js"></script>
+    <script src="jquery-templates/jquery.tmpl.min.js"></script>
+    <script src="izitoast/js/iziToast.min.js"></script>
+    <script src="jquery-circle-progress/circle-progress.js"></script>
+
+    <link rel="icon" href="images/favicon.svg" />
+    <link rel="stylesheet" href="iziToast/css/iziToast.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header>
+      <img src="images/logo.svg" alt="Logo VOPA" />
+    </header>
+
+    <div class="container">
+      <section class="login-admin">
+        <form class="login-form">
+          <img src="images/logo.svg" alt="Logo VOPA" />
+          <input
+            placeholder="Mot de passe:"
+            type="password"
+            id="login-password"
+          />
+          <button>Entrer</button>
+        </form>
+      </section>
+
+      <form class="dashboard is-admin">
+        <input placeholder="Titre du vote" id="vote-title" />
+        <select id="vote-duration">
+          <option value="0.1">test</option>
+          <option value="1">1 minute</option>
+          <option value="3">3 minutes</option>
+          <option value="5">5 minutes</option>
+          <option value="20">20 minutes</option>
+        </select>
+        <button>Créer vote</button>
+      </form>
+
+      <section id="votes-list"></section>
+      <script id="vote-template" type="text/x-jquery-tmpl">
+        <div class="vote-card">
+          <div id="vote-circle-${id}"></div>
+          <span class="vote-timer"></span>
+          <h1>${title}</h1>
+        </div>
+      </script>
+
+      <section id="vote">
+        <form id="submit-vote">
+          <h1>Title</h1>
+          <input type="radio" id="tb" name="vote-value" value="tb" /><label
+            for="tb"
+            class="tb"
+            >Très bien</label
+          >
+          <input type="radio" id="b" name="vote-value" value="b" />
+          <label for="b" class="b">Bien</label>
+          <input type="radio" id="n" name="vote-value" value="n" />
+          <label for="n" class="n">Neutre</label>
+          <input type="radio" id="m" name="vote-value" value="m" />
+          <label for="m" class="m">Mauvais</label>
+          <input type="radio" id="tm" name="vote-value" value="tm" /><label
+            for="tm"
+            class="tm"
+            >Très mauvais</label
+          >
+          <button class="btn btn-primary" id="soumettre-vote">Voter</button>
+        </form>
+      </section>
+
+      <section id="result">
+        <h1></h1>
+        <div class="result-graph">
+          <div id="result-tb" class="tb"></div>
+          <div id="result-b" class="b"></div>
+          <div id="result-n" class="n"></div>
+          <div id="result-m" class="m"></div>
+          <div id="result-tm" class="tm"></div>
+        </div>
+        <div class="result-bar"></div>
+        <div class="result-footer">
+          <button>Fermer</button>
+        </div>
+      </section>
+
+      <section id="results">
+        <table></table>
+        <div class="results-footer">
+          <button>Fermer</button>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      <form class="is-admin" id="display-results">
+        <p class="connected-users"></p>
+        <p class="txt-users">utilisateurs connectés.</p>
+        <button>Afficher les résultats</button>
+      </form>
+      <button id="exit" class="is-admin">Quitter</button>
+    </footer>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/index.js"></script>
+  </body>
+</html>
